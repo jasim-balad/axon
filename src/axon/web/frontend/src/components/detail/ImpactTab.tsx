@@ -76,7 +76,6 @@ function DepthSection({
         marginBottom: 4,
       }}
     >
-      {/* Header */}
       <button
         onClick={() => setCollapsed(!collapsed)}
         style={{
@@ -112,7 +111,6 @@ function DepthSection({
         </span>
       </button>
 
-      {/* Entries */}
       {!collapsed && (
         <div style={{ padding: '0 8px 4px 20px' }}>
           {nodes.map((node) => (
@@ -180,7 +178,7 @@ interface ImpactTabProps {
 }
 
 export function ImpactTab({ nodeId }: ImpactTabProps) {
-  const impactResult = useDataStore((s) => s.impactResult) as ImpactResult | null;
+  const impactResult = useDataStore((s) => s.impactResult);
   const setImpactResult = useDataStore((s) => s.setImpactResult);
   const loading = useDataStore((s) => s.loading);
   const setLoading = useDataStore((s) => s.setLoading);
@@ -233,7 +231,6 @@ export function ImpactTab({ nodeId }: ImpactTabProps) {
     setHighlightedNodes(new Set(map.keys()));
   }, [impactResult, setBlastRadius, setHighlightedNodes]);
 
-  // Loading
   if (loading['impact']) {
     return (
       <div className="p-4">
@@ -242,7 +239,6 @@ export function ImpactTab({ nodeId }: ImpactTabProps) {
     );
   }
 
-  // Error
   if (error) {
     return (
       <div className="p-2" style={{ color: 'var(--danger)', fontSize: 11 }}>
@@ -251,7 +247,6 @@ export function ImpactTab({ nodeId }: ImpactTabProps) {
     );
   }
 
-  // No data
   if (!impactResult) return null;
 
   // Sort depth keys numerically
@@ -261,7 +256,6 @@ export function ImpactTab({ nodeId }: ImpactTabProps) {
 
   return (
     <div style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-      {/* Header */}
       <div style={{ padding: 8, borderBottom: '1px solid var(--border)' }}>
         <div
           style={{
@@ -288,7 +282,6 @@ export function ImpactTab({ nodeId }: ImpactTabProps) {
           </span>
         </div>
 
-        {/* Depth selector */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           <span style={{ color: 'var(--text-secondary)', fontSize: 10 }}>Depth:</span>
           {[1, 2, 3, 4, 5].map((d) => (
@@ -318,7 +311,6 @@ export function ImpactTab({ nodeId }: ImpactTabProps) {
         </div>
       </div>
 
-      {/* Depth sections */}
       <div style={{ padding: '4px 8px' }}>
         {depthKeys.map((d) => {
           const nodes = impactResult.depths[String(d)];
@@ -334,7 +326,6 @@ export function ImpactTab({ nodeId }: ImpactTabProps) {
         })}
       </div>
 
-      {/* Visualize button */}
       <div style={{ padding: 8, borderTop: '1px solid var(--border)' }}>
         <button
           onClick={handleVisualize}

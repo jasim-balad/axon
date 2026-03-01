@@ -87,7 +87,6 @@ export function FileTree() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Search filter */}
       <div style={{ padding: 8 }}>
         <input
           type="text"
@@ -109,7 +108,6 @@ export function FileTree() {
         />
       </div>
 
-      {/* Tree */}
       <div className="flex-1 overflow-y-auto" style={{ padding: '0 4px 8px' }}>
         {filteredTree.length === 0 ? (
           <div style={{ color: 'var(--text-dimmed)', padding: '4px 8px', fontSize: 11 }}>
@@ -172,7 +170,6 @@ function TreeNode({ node, depth }: { node: FolderNode; depth: number }) {
 
   return (
     <div>
-      {/* Node row */}
       <div
         onClick={handleClick}
         style={{
@@ -235,7 +232,6 @@ function TreeNode({ node, depth }: { node: FolderNode; depth: number }) {
           </>
         )}
 
-        {/* Name */}
         <span
           className="truncate"
           style={{
@@ -247,7 +243,6 @@ function TreeNode({ node, depth }: { node: FolderNode; depth: number }) {
           {node.name}
         </span>
 
-        {/* Badge: child count for folders, symbol count for files */}
         {isFolder && node.children && node.children.length > 0 && (
           <Badge>{node.children.length}</Badge>
         )}
@@ -256,7 +251,6 @@ function TreeNode({ node, depth }: { node: FolderNode; depth: number }) {
         )}
       </div>
 
-      {/* Folder children */}
       {isFolder && expanded && node.children && (
         <div>
           {node.children.map((child) => (
@@ -265,7 +259,6 @@ function TreeNode({ node, depth }: { node: FolderNode; depth: number }) {
         </div>
       )}
 
-      {/* File symbol children */}
       {!isFolder && symbolsExpanded && fileSymbols.length > 0 && (
         <div>
           {fileSymbols.map((sym) => (
@@ -307,7 +300,6 @@ function SymbolRow({
         e.currentTarget.style.background = 'transparent';
       }}
     >
-      {/* Type badge */}
       <span
         style={{
           color: nodeTypeColor(symbol.label),

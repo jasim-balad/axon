@@ -40,7 +40,6 @@ def _extract_return_columns(query: str) -> list[str]:
     columns = []
     for part in return_expr.split(","):
         part = part.strip()
-        # Check for AS alias
         alias_match = re.search(r"\bAS\s+(\w+)\s*$", part, re.IGNORECASE)
         if alias_match:
             columns.append(alias_match.group(1))
@@ -76,10 +75,7 @@ def execute_cypher(body: CypherRequest, request: Request) -> dict:
     if rows is None:
         rows = []
 
-    # Convert tuples to plain lists for JSON serialization
-    serialized_rows = []
-    for row in rows:
-        serialized_rows.append([_serialize_value(v) for v in row])
+    serialized_rows = [[_serialize_value(v) for v in row] for row in rows]
 
     return {
         "columns": columns,

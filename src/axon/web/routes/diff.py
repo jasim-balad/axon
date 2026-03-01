@@ -7,6 +7,7 @@ import logging
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
+from axon.core.diff import diff_branches
 from axon.web.routes.graph import _serialize_edge, _serialize_node
 
 logger = logging.getLogger(__name__)
@@ -24,8 +25,6 @@ class DiffRequest(BaseModel):
 @router.post("/diff")
 def compute_diff(body: DiffRequest, request: Request) -> dict:
     """Compare two branches structurally and return added/removed/modified entities."""
-    from axon.core.diff import diff_branches
-
     repo_path = request.app.state.repo_path
     if repo_path is None:
         raise HTTPException(status_code=400, detail="No repo_path configured")

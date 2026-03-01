@@ -8,6 +8,7 @@ import logging
 from collections.abc import AsyncIterator
 
 from fastapi import APIRouter, Request
+from sse_starlette.sse import EventSourceResponse
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +40,5 @@ async def _event_generator(queue: asyncio.Queue | None) -> AsyncIterator[dict]:
 @router.get("/events")
 async def event_stream(request: Request):
     """SSE endpoint for real-time events (reindex_start, reindex_complete, file_changed)."""
-    from sse_starlette.sse import EventSourceResponse
-
     event_queue = request.app.state.event_queue
     return EventSourceResponse(_event_generator(event_queue))

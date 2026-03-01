@@ -32,7 +32,6 @@ def get_processes(request: Request) -> dict:
         pid = row[0] if row else ""
         pname = row[1] if len(row) > 1 else ""
 
-        # Get steps for this process, ordered by step_number
         try:
             step_rows = storage.execute_raw(
                 f"MATCH (n)-[r]->(p) WHERE p.id = '{pid}' "
@@ -50,7 +49,6 @@ def get_processes(request: Request) -> dict:
                 "stepNumber": step_row[1] if len(step_row) > 1 else 0,
             })
 
-        # Infer kind from process properties if available
         kind = None
         try:
             kind_rows = storage.execute_raw(

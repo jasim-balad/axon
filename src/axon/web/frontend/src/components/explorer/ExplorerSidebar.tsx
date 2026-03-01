@@ -18,7 +18,6 @@ export function ExplorerSidebar() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Tab bar */}
       <div
         className="flex shrink-0"
         style={{
@@ -53,7 +52,6 @@ export function ExplorerSidebar() {
         })}
       </div>
 
-      {/* Content area */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
         {activeTab === 'files' && <FileTree />}
         {activeTab === 'filters' && <Filters />}

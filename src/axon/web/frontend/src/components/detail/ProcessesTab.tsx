@@ -103,7 +103,6 @@ function ProcessEntry({
 
   return (
     <div style={{ marginBottom: 2 }}>
-      {/* Header row */}
       <button
         onClick={() => setExpanded(!expanded)}
         style={{
@@ -139,7 +138,6 @@ function ProcessEntry({
         </span>
       </button>
 
-      {/* Action buttons (always visible) */}
       <div style={{ display: 'flex', gap: 4, paddingLeft: 16, marginBottom: 2 }}>
         <button
           onClick={handleTrace}
@@ -181,7 +179,6 @@ function ProcessEntry({
         </button>
       </div>
 
-      {/* Expanded step list */}
       {expanded && (
         <div style={{ paddingLeft: 16, paddingBottom: 4 }}>
           {process.steps
@@ -283,7 +280,7 @@ interface ProcessesTabProps {
 }
 
 export function ProcessesTab({ nodeId }: ProcessesTabProps) {
-  const allProcesses = useDataStore((s) => s.allProcesses) as Process[] | null;
+  const allProcesses = useDataStore((s) => s.allProcesses);
   const setAllProcesses = useDataStore((s) => s.setAllProcesses);
   const loading = useDataStore((s) => s.loading);
   const setLoading = useDataStore((s) => s.setLoading);
@@ -324,7 +321,6 @@ export function ProcessesTab({ nodeId }: ProcessesTabProps) {
   const crossProcesses = relevantProcesses.filter((p: Process) => p.kind === 'cross');
   const intraProcesses = relevantProcesses.filter((p: Process) => p.kind !== 'cross');
 
-  // Loading
   if (loading['processes']) {
     return (
       <div className="p-2" style={{ color: 'var(--text-secondary)', fontSize: 11 }}>
@@ -333,7 +329,6 @@ export function ProcessesTab({ nodeId }: ProcessesTabProps) {
     );
   }
 
-  // Error
   if (error) {
     return (
       <div className="p-2" style={{ color: 'var(--danger)', fontSize: 11 }}>
@@ -342,7 +337,6 @@ export function ProcessesTab({ nodeId }: ProcessesTabProps) {
     );
   }
 
-  // No processes
   if (relevantProcesses.length === 0) {
     return (
       <div
@@ -360,7 +354,6 @@ export function ProcessesTab({ nodeId }: ProcessesTabProps) {
 
   return (
     <div style={{ fontFamily: "'JetBrains Mono', monospace", padding: 8 }}>
-      {/* Cross-community flows */}
       {crossProcesses.length > 0 && (
         <div style={{ marginBottom: 8 }}>
           <div className="section-heading" style={{ fontSize: 11, marginBottom: 4 }}>
@@ -372,7 +365,6 @@ export function ProcessesTab({ nodeId }: ProcessesTabProps) {
         </div>
       )}
 
-      {/* Intra-community flows */}
       {intraProcesses.length > 0 && (
         <div>
           <div className="section-heading" style={{ fontSize: 11, marginBottom: 4 }}>

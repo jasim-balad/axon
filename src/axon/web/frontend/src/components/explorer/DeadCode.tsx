@@ -107,7 +107,6 @@ export function DeadCode() {
 
   return (
     <div style={{ padding: 8, display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span
           style={{
@@ -134,7 +133,6 @@ export function DeadCode() {
         </span>
       </div>
 
-      {/* Action buttons */}
       <div style={{ display: 'flex', gap: 4 }}>
         <button
           onClick={handleShowAll}
@@ -170,7 +168,6 @@ export function DeadCode() {
         )}
       </div>
 
-      {/* File groups */}
       {fileEntries.map(([filePath, entries]) => (
         <FileGroup
           key={filePath}
@@ -194,7 +191,6 @@ function FileGroup({
 }) {
   return (
     <div>
-      {/* File path header */}
       <div
         style={{
           fontSize: 10,
@@ -211,7 +207,6 @@ function FileGroup({
         {filePath}
       </div>
 
-      {/* Symbols */}
       {entries.map((entry, idx) => (
         <div
           key={`${entry.name}-${entry.line}-${idx}`}
@@ -233,15 +228,12 @@ function FileGroup({
             e.currentTarget.style.background = 'transparent';
           }}
         >
-          {/* Type badge */}
           <DeadTypeBadge type={entry.type} />
 
-          {/* Name */}
           <span className="truncate" style={{ flex: 1, minWidth: 0 }}>
             {entry.name}
           </span>
 
-          {/* Line number */}
           <span style={{ color: 'var(--text-dimmed)', fontSize: 9, flexShrink: 0 }}>
             :{entry.line}
           </span>

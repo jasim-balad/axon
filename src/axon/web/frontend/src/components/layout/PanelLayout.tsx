@@ -59,7 +59,6 @@ export function PanelLayout({ left, center, right }: PanelLayoutProps) {
 
   return (
     <div className="flex h-full w-full overflow-hidden">
-      {/* Left Sidebar */}
       {leftOpen && left && (
         <>
           <div
@@ -75,12 +74,10 @@ export function PanelLayout({ left, center, right }: PanelLayoutProps) {
         </>
       )}
 
-      {/* Center */}
       <div className="flex-1 min-w-0 overflow-hidden">
         {center}
       </div>
 
-      {/* Right Panel */}
       {rightOpen && right && (
         <>
           <Divider onMouseDown={onMouseDown('right')} />

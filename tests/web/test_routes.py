@@ -6,7 +6,6 @@ Each route handler is tested for expected response shape and error paths.
 
 from __future__ import annotations
 
-import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -331,8 +330,8 @@ class TestSearchEndpoint:
             ),
         ]
 
-        with patch("axon.core.search.hybrid.hybrid_search", return_value=search_results):
-            with patch("axon.core.embeddings.embedder._get_model", side_effect=ImportError):
+        with patch("axon.web.routes.search.hybrid_search", return_value=search_results):
+            with patch("axon.web.routes.search._get_model", side_effect=ImportError):
                 response = client.post(
                     "/search", json={"query": "validate", "limit": 10}
                 )
@@ -353,8 +352,8 @@ class TestSearchEndpoint:
     def test_search_empty_results(
         self, mock_storage: MagicMock, client: TestClient
     ) -> None:
-        with patch("axon.core.search.hybrid.hybrid_search", return_value=[]):
-            with patch("axon.core.embeddings.embedder._get_model", side_effect=ImportError):
+        with patch("axon.web.routes.search.hybrid_search", return_value=[]):
+            with patch("axon.web.routes.search._get_model", side_effect=ImportError):
                 response = client.post(
                     "/search", json={"query": "nonexistent", "limit": 5}
                 )
@@ -367,10 +366,10 @@ class TestSearchEndpoint:
         self, mock_storage: MagicMock, client: TestClient
     ) -> None:
         with patch(
-            "axon.core.search.hybrid.hybrid_search",
+            "axon.web.routes.search.hybrid_search",
             side_effect=RuntimeError("search error"),
         ):
-            with patch("axon.core.embeddings.embedder._get_model", side_effect=ImportError):
+            with patch("axon.web.routes.search._get_model", side_effect=ImportError):
                 response = client.post(
                     "/search", json={"query": "test"}
                 )
@@ -835,7 +834,7 @@ class TestDiffEndpoint:
         app = _make_app(mock_storage, repo_path=tmp_path)
         client = TestClient(app)
 
-        with patch("axon.core.diff.diff_branches", return_value=fake_result):
+        with patch("axon.web.routes.diff.diff_branches", return_value=fake_result):
             response = client.post(
                 "/diff", json={"base": "main", "compare": "feature"}
             )
@@ -857,7 +856,7 @@ class TestDiffEndpoint:
         client = TestClient(app)
 
         with patch(
-            "axon.core.diff.diff_branches",
+            "axon.web.routes.diff.diff_branches",
             side_effect=ValueError("Invalid branch range"),
         ):
             response = client.post(

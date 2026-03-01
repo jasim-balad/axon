@@ -8,6 +8,8 @@ from collections import defaultdict
 
 from fastapi import APIRouter, HTTPException, Query, Request
 
+from axon.core.ingestion.pipeline import run_pipeline
+
 from axon.web.routes.graph import _serialize_node
 
 logger = logging.getLogger(__name__)
@@ -57,10 +59,7 @@ def get_dead_code(request: Request) -> dict:
 
     by_file: dict[str, list[dict]] = defaultdict(list)
     for row in rows:
-        name = row[1] if len(row) > 1 else "?"
-        file_path = row[2] if len(row) > 2 else "?"
-        start_line = row[3] if len(row) > 3 else 0
-        node_type = row[4] if len(row) > 4 else "unknown"
+        _, name, file_path, start_line, node_type = row
         by_file[file_path].append({
             "name": name,
             "type": str(node_type),
@@ -86,11 +85,12 @@ def get_coupling(request: Request) -> dict:
 
     pairs = []
     for row in rows or []:
+        _, file_a, _, file_b, strength, co_changes = row
         pairs.append({
-            "fileA": row[1] if len(row) > 1 else "",
-            "fileB": row[3] if len(row) > 3 else "",
-            "strength": row[4] if len(row) > 4 else 0.0,
-            "coChanges": row[5] if len(row) > 5 else 0,
+            "fileA": file_a,
+            "fileB": file_b,
+            "strength": strength,
+            "coChanges": co_changes,
         })
 
     return {"pairs": pairs}
@@ -102,7 +102,6 @@ def get_communities(request: Request) -> dict:
     storage = request.app.state.storage
 
     try:
-        # Get community nodes
         community_rows = storage.execute_raw(
             "MATCH (c) WHERE labels(c) = 'Community' "
             "RETURN c.id, c.name"
@@ -119,7 +118,6 @@ def get_communities(request: Request) -> dict:
         cid = row[0] if row else ""
         cname = row[1] if len(row) > 1 else ""
 
-        # Get members of this community
         try:
             member_rows = storage.execute_raw(
                 f"MATCH (n)-[r]->(c) WHERE c.id = '{cid}' "
@@ -131,7 +129,6 @@ def get_communities(request: Request) -> dict:
 
         member_ids = [r[0] for r in (member_rows or []) if r]
 
-        # Get cohesion from community properties if available
         try:
             cohesion_rows = storage.execute_raw(
                 f"MATCH (c) WHERE c.id = '{cid}' RETURN c.cohesion"
@@ -261,8 +258,6 @@ def trigger_reindex(request: Request) -> dict:
     event_queue = request.app.state.event_queue
 
     def _run_reindex() -> None:
-        from axon.core.ingestion.pipeline import run_pipeline
-        from axon.core.storage.kuzu_backend import KuzuBackend
 
         if event_queue:
             try:

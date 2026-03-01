@@ -27,7 +27,6 @@ export function Header() {
         borderBottom: '1px solid var(--border)',
       }}
     >
-      {/* Left: Logo */}
       <div className="flex items-center gap-2">
         <Hexagon size={14} style={{ color: 'var(--accent)' }} />
         <span
@@ -38,7 +37,6 @@ export function Header() {
         </span>
       </div>
 
-      {/* Center: View Tabs */}
       <nav className="flex items-center gap-0 h-full">
         {tabs.map((tab) => {
           const isActive = activeView === tab.id;
@@ -64,9 +62,7 @@ export function Header() {
         })}
       </nav>
 
-      {/* Right: Stats + Actions */}
       <div className="flex items-center gap-3">
-        {/* Node count */}
         <span
           className="text-[11px]"
           style={{ color: 'var(--text-secondary)', fontFamily: "'JetBrains Mono', monospace" }}
@@ -75,7 +71,6 @@ export function Header() {
           <span style={{ color: 'var(--accent)' }}>&#9679;</span>
         </span>
 
-        {/* Edge count */}
         <span
           className="text-[11px]"
           style={{ color: 'var(--text-secondary)', fontFamily: "'JetBrains Mono', monospace" }}
@@ -84,7 +79,6 @@ export function Header() {
           <span style={{ color: 'var(--text-dimmed)' }}>&#9472;</span>
         </span>
 
-        {/* Command palette trigger */}
         <button
           onClick={toggleCommandPalette}
           className="flex items-center gap-1 px-1.5 py-0.5 text-[10px] cursor-pointer bg-transparent"
@@ -98,7 +92,6 @@ export function Header() {
           <span>&#8984;K</span>
         </button>
 
-        {/* Reindex button */}
         <button
           className="flex items-center justify-center p-1 cursor-pointer bg-transparent border-0"
           style={{ color: 'var(--text-secondary)' }}

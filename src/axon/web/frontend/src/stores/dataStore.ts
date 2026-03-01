@@ -1,37 +1,35 @@
 import { create } from 'zustand';
+import type {
+  CouplingPair,
+  CypherEntry,
+  CypherResult,
+  DeadCodeReport,
+  GraphNode,
+  HealthScore,
+  ImpactResult,
+  Process,
+} from '@/types';
 
 export interface NodeContext {
-  node: any;
-  callers: Array<{ node: any; confidence: number }>;
-  callees: Array<{ node: any; confidence: number }>;
-  typeRefs: any[];
+  node: GraphNode;
+  callers: Array<{ node: GraphNode; confidence: number }>;
+  callees: Array<{ node: GraphNode; confidence: number }>;
+  typeRefs: GraphNode[];
   processes: string[];
-}
-
-export interface CypherEntry {
-  query: string;
-  timestamp: number;
-}
-
-export interface CypherResult {
-  columns: string[];
-  rows: any[][];
-  rowCount: number;
-  durationMs: number;
 }
 
 interface DataStore {
   // Node detail
   nodeContext: NodeContext | null;
-  impactResult: any | null;
+  impactResult: ImpactResult | null;
   fileContent: { path: string; content: string; language: string } | null;
-  nodeProcesses: any[] | null;
+  nodeProcesses: Process[] | null;
 
   // Analysis data
-  healthScore: any | null;
-  deadCode: any | null;
-  couplingData: any[] | null;
-  allProcesses: any[] | null;
+  healthScore: HealthScore | null;
+  deadCode: DeadCodeReport | null;
+  couplingData: CouplingPair[] | null;
+  allProcesses: Process[] | null;
 
   // Cypher
   cypherHistory: CypherEntry[];
@@ -42,13 +40,13 @@ interface DataStore {
 
   // Actions
   setNodeContext: (ctx: NodeContext | null) => void;
-  setImpactResult: (result: any | null) => void;
+  setImpactResult: (result: ImpactResult | null) => void;
   setFileContent: (content: { path: string; content: string; language: string } | null) => void;
-  setNodeProcesses: (processes: any[] | null) => void;
-  setHealthScore: (score: any | null) => void;
-  setDeadCode: (report: any | null) => void;
-  setCouplingData: (data: any[] | null) => void;
-  setAllProcesses: (processes: any[] | null) => void;
+  setNodeProcesses: (processes: Process[] | null) => void;
+  setHealthScore: (score: HealthScore | null) => void;
+  setDeadCode: (report: DeadCodeReport | null) => void;
+  setCouplingData: (data: CouplingPair[] | null) => void;
+  setAllProcesses: (processes: Process[] | null) => void;
   setCypherResult: (result: CypherResult | null) => void;
   addCypherHistory: (query: string) => void;
   setLoading: (key: string, value: boolean) => void;

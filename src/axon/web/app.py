@@ -73,7 +73,6 @@ def create_app(
         allow_headers=["*"],
     )
 
-    # Register API routes
     from axon.web.routes.analysis import router as analysis_router
     from axon.web.routes.cypher import router as cypher_router
     from axon.web.routes.diff import router as diff_router
@@ -92,7 +91,6 @@ def create_app(
     app.include_router(processes_router)
     app.include_router(events_router)
 
-    # Mount frontend SPA if built assets exist (skip in dev mode)
     if not dev and FRONTEND_DIR.is_dir():
         app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
         logger.info("Serving frontend from %s", FRONTEND_DIR)

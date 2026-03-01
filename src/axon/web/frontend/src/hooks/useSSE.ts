@@ -28,27 +28,15 @@ export function useSSE(): void {
       const source = new EventSource('/api/events');
       sourceRef.current = source;
 
-      source.addEventListener('reindex_complete', (e: MessageEvent) => {
-        try {
-          // Parse the event payload (contains added/removed/modified node IDs).
-          const _data = JSON.parse(e.data as string) as {
-            added?: string[];
-            removed?: string[];
-            modified?: string[];
-          };
-
-          // Fetch the full updated graph and push it into the store.
-          graphApi
-            .getGraph()
-            .then((graphData) => {
-              setGraphData(graphData.nodes, graphData.edges);
-            })
-            .catch((err: unknown) => {
-              console.error('[SSE] Failed to fetch updated graph:', err);
-            });
-        } catch (err) {
-          console.error('[SSE] Failed to parse reindex_complete event:', err);
-        }
+      source.addEventListener('reindex_complete', () => {
+        graphApi
+          .getGraph()
+          .then((graphData) => {
+            setGraphData(graphData.nodes, graphData.edges);
+          })
+          .catch((err: unknown) => {
+            console.error('[SSE] Failed to fetch updated graph:', err);
+          });
       });
 
       source.addEventListener('reindex_start', () => {

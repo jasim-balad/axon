@@ -292,7 +292,6 @@ export function ContextTab({ nodeId }: ContextTabProps) {
     [selectNode],
   );
 
-  // Loading
   if (loading['nodeContext']) {
     return (
       <div className="p-4">
@@ -301,7 +300,6 @@ export function ContextTab({ nodeId }: ContextTabProps) {
     );
   }
 
-  // Error
   if (error) {
     return (
       <div className="p-2" style={{ color: 'var(--danger)', fontSize: 11 }}>
@@ -310,7 +308,6 @@ export function ContextTab({ nodeId }: ContextTabProps) {
     );
   }
 
-  // No data
   if (!nodeContext) return null;
 
   const { node, callers, callees, typeRefs } = nodeContext;
@@ -318,9 +315,7 @@ export function ContextTab({ nodeId }: ContextTabProps) {
 
   return (
     <div style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-      {/* Symbol header */}
       <div style={{ padding: 8, borderBottom: '1px solid var(--border)' }}>
-        {/* Name row */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 2 }}>
           <TypeBadge label={node.label} />
           <span
@@ -337,7 +332,6 @@ export function ContextTab({ nodeId }: ContextTabProps) {
           </span>
         </div>
 
-        {/* Label + file:line */}
         <div style={{ color: 'var(--text-secondary)', fontSize: 10, marginBottom: 4 }}>
           {capitalize(node.label)}
           {node.className ? ` \u00B7 ${node.className}` : ''}
@@ -345,7 +339,6 @@ export function ContextTab({ nodeId }: ContextTabProps) {
           {shortPath(node.filePath)}:{node.startLine}-{node.endLine}
         </div>
 
-        {/* Badges */}
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {node.isDead && (
             <span
@@ -391,7 +384,6 @@ export function ContextTab({ nodeId }: ContextTabProps) {
           )}
         </div>
 
-        {/* Community membership */}
         {processMemberships.length > 0 && (
           <div style={{ marginTop: 4, fontSize: 10, color: 'var(--text-secondary)' }}>
             Community: {processMemberships.join(', ')}
@@ -399,7 +391,6 @@ export function ContextTab({ nodeId }: ContextTabProps) {
         )}
       </div>
 
-      {/* Signature */}
       {node.signature && (
         <div style={{ borderTop: '1px solid var(--border)', padding: 8 }}>
           <div className="section-heading" style={{ marginBottom: 4, fontSize: 11 }}>
@@ -421,16 +412,12 @@ export function ContextTab({ nodeId }: ContextTabProps) {
         </div>
       )}
 
-      {/* Callers */}
       <EdgeList title="CALLERS" entries={callers} onNavigate={handleNavigate} />
 
-      {/* Callees */}
       <EdgeList title="CALLEES" entries={callees} onNavigate={handleNavigate} />
 
-      {/* Type refs */}
       <TypeRefsList typeRefs={typeRefs} onNavigate={handleNavigate} />
 
-      {/* Action buttons */}
       <div
         style={{
           borderTop: '1px solid var(--border)',

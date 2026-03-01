@@ -59,7 +59,6 @@ def get_tree(request: Request) -> dict:
     """Build a nested folder tree from File and Folder nodes in the graph."""
     storage = request.app.state.storage
 
-    # Query all File nodes
     try:
         file_rows = storage.execute_raw(
             "MATCH (n) WHERE labels(n) = 'File' "
@@ -68,16 +67,7 @@ def get_tree(request: Request) -> dict:
     except Exception:
         file_rows = []
 
-    # Query all Folder nodes
-    try:
-        folder_rows = storage.execute_raw(
-            "MATCH (n) WHERE labels(n) = 'Folder' "
-            "RETURN n.id, n.name, n.file_path"
-        )
-    except Exception:
-        folder_rows = []
 
-    # Count symbols per file
     symbol_counts: dict[str, int] = {}
     try:
         count_rows = storage.execute_raw(
@@ -90,7 +80,7 @@ def get_tree(request: Request) -> dict:
     except Exception:
         pass
 
-    # Build nested tree structure using path components
+
     root_children: dict[str, dict] = {}
 
     def _ensure_path(parts: list[str]) -> dict:
@@ -112,7 +102,6 @@ def get_tree(request: Request) -> dict:
             current = node["children"]
         return current
 
-    # Add files
     for row in file_rows or []:
         file_path = row[2] if len(row) > 2 else ""
         if not file_path:

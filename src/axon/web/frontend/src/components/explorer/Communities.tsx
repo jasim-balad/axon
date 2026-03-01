@@ -92,7 +92,6 @@ export function Communities() {
 
   return (
     <div style={{ padding: 8, display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {/* Sort dropdown */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
         <span
           style={{
@@ -124,7 +123,6 @@ export function Communities() {
         </select>
       </div>
 
-      {/* Community list */}
       {sorted.map((community, idx) => (
         <CommunityRow
           key={community.id}
@@ -167,7 +165,6 @@ function CommunityRow({
         background: 'var(--bg-surface)',
       }}
     >
-      {/* Header row */}
       <div
         onClick={handleHighlight}
         style={{
@@ -185,7 +182,6 @@ function CommunityRow({
           e.currentTarget.style.background = 'transparent';
         }}
       >
-        {/* Expand toggle */}
         <span
           onClick={(e) => {
             e.stopPropagation();
@@ -200,7 +196,6 @@ function CommunityRow({
           )}
         </span>
 
-        {/* Color swatch */}
         <span
           style={{
             width: 8,
@@ -211,12 +206,10 @@ function CommunityRow({
           }}
         />
 
-        {/* Name */}
         <span className="truncate" style={{ flex: 1, minWidth: 0, color: 'var(--text-primary)' }}>
           {community.name}
         </span>
 
-        {/* Member count badge */}
         <span
           style={{
             background: 'var(--bg-elevated)',
@@ -232,7 +225,6 @@ function CommunityRow({
         </span>
       </div>
 
-      {/* Cohesion bar */}
       <div style={{ padding: '0 8px 4px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           <span style={{ fontSize: 9, color: 'var(--text-dimmed)', width: 50, flexShrink: 0 }}>
@@ -262,7 +254,6 @@ function CommunityRow({
         </div>
       </div>
 
-      {/* Expanded members */}
       {expanded && (
         <div
           style={{

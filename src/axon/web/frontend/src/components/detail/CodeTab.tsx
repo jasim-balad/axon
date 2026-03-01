@@ -137,7 +137,6 @@ export function CodeTab({ nodeId }: CodeTabProps) {
     });
   }, [highlightedHtml, nodeStartLine]);
 
-  // Loading
   if (loading['code']) {
     return (
       <div className="p-4">
@@ -146,7 +145,6 @@ export function CodeTab({ nodeId }: CodeTabProps) {
     );
   }
 
-  // Error
   if (error) {
     return (
       <div className="p-2" style={{ color: 'var(--danger)', fontSize: 11 }}>
@@ -155,7 +153,6 @@ export function CodeTab({ nodeId }: CodeTabProps) {
     );
   }
 
-  // No data
   if (!fileContent) return null;
 
   const lines = fileContent.content.split('\n');
@@ -166,7 +163,6 @@ export function CodeTab({ nodeId }: CodeTabProps) {
       style={{ fontFamily: "'JetBrains Mono', monospace" }}
       ref={scrollRef}
     >
-      {/* File breadcrumb */}
       <div
         style={{
           padding: 8,
@@ -194,7 +190,6 @@ export function CodeTab({ nodeId }: CodeTabProps) {
         ))}
       </div>
 
-      {/* Code with line numbers */}
       <div style={{ overflow: 'auto' }}>
         {highlightedHtml ? (
           <ShikiRenderedCode

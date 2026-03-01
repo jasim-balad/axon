@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { DeadCodeReport as DeadCodeReportType, DeadCodeEntry } from '@/types';
 import { useGraphStore } from '@/stores/graphStore';
 import { useViewStore } from '@/stores/viewStore';
@@ -63,7 +63,6 @@ function FileGroup({
 }) {
   return (
     <div>
-      {/* File header */}
       <div
         onClick={onToggle}
         style={{
@@ -105,7 +104,6 @@ function FileGroup({
         </span>
       </div>
 
-      {/* Entries */}
       {expanded &&
         entries.map((entry, idx) => (
           <div
@@ -171,8 +169,7 @@ export function DeadCodeReport({ data }: DeadCodeReportProps) {
     return Object.entries(data.byFile);
   }, [data]);
 
-  // Expand all by default on first render when data arrives
-  useMemo(() => {
+  useEffect(() => {
     if (fileEntries.length > 0 && expandedFiles.size === 0) {
       setExpandedFiles(new Set(fileEntries.map(([fp]) => fp)));
     }
@@ -232,7 +229,6 @@ export function DeadCodeReport({ data }: DeadCodeReportProps) {
 
   return (
     <div style={{ padding: 8, display: 'flex', flexDirection: 'column', gap: 2 }}>
-      {/* Summary */}
       <div
         style={{
           display: 'flex',
@@ -264,7 +260,6 @@ export function DeadCodeReport({ data }: DeadCodeReportProps) {
         </span>
       </div>
 
-      {/* File groups */}
       {fileEntries.map(([filePath, entries]) => (
         <FileGroup
           key={filePath}

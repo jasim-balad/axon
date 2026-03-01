@@ -9,14 +9,8 @@ export function StatusBar() {
 
   const nodeCount = overview?.totals.nodes ?? 0;
   const communityCount = communities.length;
-  const deadCount =
-    typeof deadCode === 'object' && deadCode !== null && 'count' in deadCode
-      ? (deadCode as { count: number }).count
-      : 0;
-  const health =
-    typeof healthScore === 'object' && healthScore !== null && 'score' in healthScore
-      ? (healthScore as { score: number }).score
-      : null;
+  const deadCount = deadCode?.total ?? 0;
+  const health = healthScore?.score ?? null;
 
   // Detect primary language from overview
   const language = overview?.nodesByLabel
@@ -46,7 +40,6 @@ export function StatusBar() {
         color: 'var(--text-secondary)',
       }}
     >
-      {/* Indexed indicator */}
       <span className="flex items-center gap-1">
         <span style={{ color: nodeCount > 0 ? 'var(--accent)' : 'var(--text-dimmed)' }}>
           &#9679;
@@ -56,22 +49,18 @@ export function StatusBar() {
 
       {pipe}
 
-      {/* Language */}
       <span>{language.toLowerCase()}</span>
 
       {pipe}
 
-      {/* Communities */}
       <span>{communityCount} communities</span>
 
       {pipe}
 
-      {/* Dead code */}
       <span>{deadCount} dead</span>
 
       {pipe}
 
-      {/* Health score */}
       <span>health: {health !== null ? health : '--'}</span>
     </footer>
   );

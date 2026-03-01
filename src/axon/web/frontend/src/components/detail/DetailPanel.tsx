@@ -20,7 +20,6 @@ export function DetailPanel() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Tab bar */}
       <div
         className="flex shrink-0"
         style={{
@@ -58,7 +57,6 @@ export function DetailPanel() {
         })}
       </div>
 
-      {/* Content */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
         {!selectedNodeId ? (
           <EmptyState message="Select a node on the graph" />

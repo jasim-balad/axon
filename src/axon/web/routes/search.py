@@ -7,6 +7,9 @@ import logging
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
 
+from axon.core.embeddings.embedder import _get_model
+from axon.core.search.hybrid import hybrid_search
+
 logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["search"])
@@ -24,15 +27,10 @@ class SearchRequest(BaseModel):
 @router.post("/search")
 def search(body: SearchRequest, request: Request) -> dict:
     """Run hybrid search (FTS + optional vector) and return results."""
-    from axon.core.search.hybrid import hybrid_search
-
     storage = request.app.state.storage
 
-    # Attempt to compute a query embedding; fall back to FTS-only on failure.
     query_embedding: list[float] | None = None
     try:
-        from axon.core.embeddings.embedder import _get_model
-
         model = _get_model(_EMBED_MODEL_NAME)
         query_embedding = list(next(iter(model.embed([body.query]))))
     except Exception:
